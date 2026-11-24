@@ -50,6 +50,28 @@ RSpec.describe "Programmes", type: :request do
       expect(response.body).to include("13,5")
     end
 
+    it "exports the week as CSV" do
+      create(:observatory, code: "511", name: "Haute Provence",
+        longitude: 5.7157, parallax_cos: 0.72140, parallax_sin: 0.69034)
+
+      get programme_path(format: :csv), params: {programme: programme_params}
+
+      expect(response).to have_http_status(:ok)
+      expect(response.media_type).to eq("text/csv")
+      expect(response.headers["Content-Disposition"])
+        .to include("skopos-511-2026-11-23.csv")
+      expect(response.body).to include("Betelgeuse")
+      expect(response.body).to start_with("\uFEFF")
+    end
+
+    it "refuses to export an invalid programme" do
+      params = programme_params.merge(observatory_code: "ZZZ")
+
+      get programme_path(format: :csv), params: {programme: params}
+
+      expect(response).to have_http_status(:unprocessable_content)
+    end
+
     it "shows what is wrong with the form on the page" do
       params = programme_params.merge(observatory_code: "ZZZ")
 

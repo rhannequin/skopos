@@ -59,12 +59,6 @@ module ProgrammesHelper
     end
   end
 
-  def verdict(visibility)
-    return :too_low unless visibility.observable?
-
-    visibility.verdict
-  end
-
   def instrument_label(programme)
     magnitude = format_magnitude(programme.limiting_magnitude)
 
