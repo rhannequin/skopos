@@ -21,6 +21,10 @@ class Observatory::MpcImport
     new(response.body.dup.force_encoding(Encoding::UTF_8)).import
   end
 
+  def self.fetch_if_empty
+    fetch unless Observatory.exists?
+  end
+
   def initialize(list)
     @list = list
   end

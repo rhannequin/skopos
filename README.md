@@ -106,7 +106,9 @@ stockée.
 bin/rails observatories:import
 ```
 
-`bin/setup` lance l'import. En production, il se lance avec :
+`bin/setup` et le conteneur de production au démarrage lancent l'import quand
+aucun observatoire n'est encore enregistré. Pour mettre la liste à jour en
+production :
 
 ```
 bin/kamal app exec "bin/rails observatories:import"
