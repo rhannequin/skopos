@@ -1,9 +1,7 @@
 <% time_above_low = format_duration(visibility.time_above_low_altitude) %>
 <% time_above_high = format_duration(visibility.time_above_high_altitude) %>
 
-<% verdict = verdict(visibility) %>
-
-<tr class="verdict-<%= verdict %>">
+<tr class="verdict-<%= visibility.assessment %>">
   <th scope="row"><%= visibility.target.name %></th>
   <td class="num">
     <% if visibility.target.magnitude %>
@@ -52,5 +50,7 @@
       <%= t(".moon", separation: separation) %>
     <% end %>
   </td>
-  <td class="verdict"><%= t("programmes.verdicts.#{verdict}") %></td>
+  <td class="verdict">
+    <%= t("programmes.verdicts.#{visibility.assessment}") %>
+  </td>
 </tr>

@@ -4,6 +4,13 @@
   <%= t(".times_in_ut") %>
 </p>
 
+<p class="exports">
+  <%= link_to(
+    t("programmes.csv.download"),
+    programme_path(format: :csv, programme: programme_params)
+  ) %>
+</p>
+
 <p class="legend">
   <span><i class="swatch low"></i><%= t(".above_low_altitude") %></span>
   <span><i class="swatch high"></i><%= t(".above_high_altitude") %></span>

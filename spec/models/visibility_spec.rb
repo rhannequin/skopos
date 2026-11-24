@@ -93,6 +93,24 @@ RSpec.describe Visibility, type: :model do
     end
   end
 
+  describe "#assessment" do
+    it "is the verdict when the target rises above 20°" do
+      expect(ohp_visibility(betelgeuse).assessment).to eq(:feasible)
+    end
+
+    it "is too low when the target stays under 20°" do
+      night = Night.new(date: Date.new(2026, 6, 21), dusk: nil, dawn: nil)
+      visibility = Visibility.new(
+        target: betelgeuse,
+        night: night,
+        observer: ohp_observer,
+        limiting_magnitude: 18
+      )
+
+      expect(visibility.assessment).to eq(:too_low)
+    end
+  end
+
   describe "#verdict" do
     it "is feasible at least one magnitude brighter than the limit" do
       expect(verdict_for(magnitude: 17)).to eq(:feasible)

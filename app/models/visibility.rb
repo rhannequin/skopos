@@ -78,6 +78,10 @@ class Visibility
     highest && moon_seen_from_station.horizontal.altitude
   end
 
+  def assessment
+    observable? ? verdict : :too_low
+  end
+
   def verdict
     return :unknown if target.magnitude.nil? || @limiting_magnitude.nil?
 
