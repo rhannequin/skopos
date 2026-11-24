@@ -82,6 +82,27 @@ RSpec.describe Observatory::MpcImport, type: :model do
     end
   end
 
+  describe ".fetch_if_empty" do
+    it "imports the list when there is no observatory yet" do
+      response = Net::HTTPOK.new("1.1", "200", "OK")
+      allow(response).to receive(:body).and_return(mpc_list)
+      allow(Net::HTTP).to receive(:get_response).and_return(response)
+
+      Observatory::MpcImport.fetch_if_empty
+
+      expect(Observatory.count).to eq(4)
+    end
+
+    it "does not call the MPC when observatories are already there" do
+      create(:observatory)
+      allow(Observatory::MpcImport).to receive(:fetch)
+
+      Observatory::MpcImport.fetch_if_empty
+
+      expect(Observatory::MpcImport).not_to have_received(:fetch)
+    end
+  end
+
   def mpc_list
     file_fixture("mpc_observatory_codes.html").read
   end

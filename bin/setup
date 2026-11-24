@@ -28,7 +28,7 @@ FileUtils.chdir APP_ROOT do
   system! "bin/rails ephemeris:download"
 
   puts "\n== Importing the MPC observatory codes =="
-  system! "bin/rails observatories:import"
+  system! "bin/rails observatories:import_if_empty"
 
   puts "\n== Removing old logs and tempfiles =="
   system! "bin/rails log:clear tmp:clear"
