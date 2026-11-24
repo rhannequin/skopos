@@ -11,6 +11,19 @@ RSpec.describe Visibility, type: :model do
       expect(visibility.time_above_high_altitude.in_minutes.round).to eq(438)
     end
 
+    it "gives the periods Betelgeuse spends above 20° and 30°" do
+      visibility = ohp_visibility(betelgeuse)
+
+      low = visibility.periods_above_low_altitude.sole
+      high = visibility.periods_above_high_altitude.sole
+
+      expect(low.begin.strftime("%H:%M")).to eq("20:45")
+      expect(low.end).to eq(Time.utc(2026, 11, 24, 5, 1, 26))
+      expect(high.begin.strftime("%H:%M")).to eq("21:42")
+      expect(high.end).to eq(Time.utc(2026, 11, 24, 5, 0, 45))
+      expect(visibility.periods_above_low_altitude).to be_frozen
+    end
+
     it "finds Betelgeuse at its highest when it culminates" do
       visibility = ohp_visibility(betelgeuse)
 
@@ -71,6 +84,7 @@ RSpec.describe Visibility, type: :model do
 
       expect(visibility.time_above_low_altitude).to eq(0.seconds)
       expect(visibility.time_above_high_altitude).to eq(0.seconds)
+      expect(visibility.periods_above_low_altitude).to be_empty
       expect(visibility.highest_altitude).to be_nil
       expect(visibility.minimum_airmass).to be_nil
       expect(visibility.moon_separation).to be_nil
