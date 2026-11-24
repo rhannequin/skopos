@@ -21,12 +21,20 @@ class Visibility
     @ephem = ephem
   end
 
+  def periods_above_low_altitude
+    periods_above.fetch(LOW_ALTITUDE)
+  end
+
+  def periods_above_high_altitude
+    periods_above.fetch(HIGH_ALTITUDE)
+  end
+
   def time_above_low_altitude
-    time_above.fetch(LOW_ALTITUDE)
+    total_duration(periods_above_low_altitude)
   end
 
   def time_above_high_altitude
-    time_above.fetch(HIGH_ALTITUDE)
+    total_duration(periods_above_high_altitude)
   end
 
   def observable?
@@ -84,8 +92,8 @@ class Visibility
 
   private
 
-  def time_above
-    @time_above ||= if night.dark?
+  def periods_above
+    @periods_above ||= if night.dark?
       altitudes = [LOW_ALTITUDE, HIGH_ALTITUDE]
       crossings = crossing_calculator.multiple_crossings_between(
         night.dusk,
@@ -93,29 +101,34 @@ class Visibility
         altitudes: altitudes
       )
       altitudes.zip(crossings).to_h do |altitude, altitude_crossings|
-        [altitude, duration_above(altitude, altitude_crossings)]
+        [altitude, periods_above_altitude(altitude, altitude_crossings)]
       end
     else
-      {LOW_ALTITUDE => 0.seconds, HIGH_ALTITUDE => 0.seconds}
+      {LOW_ALTITUDE => [].freeze, HIGH_ALTITUDE => [].freeze}
     end
   end
 
-  def duration_above(altitude, crossings)
+  def periods_above_altitude(altitude, crossings)
     above_since = night.dusk if altitude_at_dusk > altitude
-    total = 0.seconds
+    periods = []
 
     crossings.each do |crossing|
-      time = crossing.instant.to_time
+      time = crossing.instant.to_time.round.clamp(night.dusk, night.dawn)
 
       if crossing.direction == :rising
         above_since = time
       else
-        total += (time - (above_since || night.dusk)).seconds
+        periods << ((above_since || night.dusk)..time)
         above_since = nil
       end
     end
 
-    above_since ? total + (night.dawn - above_since).seconds : total
+    periods << (above_since..night.dawn) if above_since
+    periods.reject { it.end <= it.begin }.freeze
+  end
+
+  def total_duration(periods)
+    periods.sum(0.seconds) { (it.end - it.begin).seconds }
   end
 
   def highest
