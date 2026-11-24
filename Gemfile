@@ -20,7 +20,7 @@ gem "stimulus-rails"
 gem "jbuilder"
 
 # Astronomical computations [https://github.com/rhannequin/astronoby]
-gem "astronoby", github: "rhannequin/astronoby", ref: "ac99b1e23ada96779347ef0b2164d9964566d031"
+gem "astronoby", "~> 0.12"
 
 # CSV export, no longer a default gem since Ruby 3.4
 gem "csv", "~> 3.3"
