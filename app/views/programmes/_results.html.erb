@@ -1,0 +1,15 @@
+<p class="station">
+  <strong><%= station_label(programme) %></strong>,
+  <%= instrument_label(programme) %>.
+  <%= t(".times_in_ut") %>
+</p>
+
+<p class="legend">
+  <span><i class="swatch low"></i><%= t(".above_low_altitude") %></span>
+  <span><i class="swatch high"></i><%= t(".above_high_altitude") %></span>
+  <span><%= t(".peak") %></span>
+</p>
+
+<% programme.nights.each do |night| %>
+  <%= render "night", programme: programme, night: night %>
+<% end %>

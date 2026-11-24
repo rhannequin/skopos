@@ -1,0 +1,40 @@
+<section class="night">
+  <h2><%= l(night.date, format: :night).upcase_first %></h2>
+
+  <% if night.dark? %>
+    <% visibilities = programme.visibilities(night) %>
+    <p class="when">
+      <%= t(
+        ".dark",
+        dusk: format_time(night.dusk),
+        dawn: format_time(night.dawn),
+        moon: (visibilities.first.moon_illuminated_fraction * 100).round
+      ) %>
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col"><%= t(".target") %></th>
+            <th scope="col" class="num"><%= t(".magnitude") %></th>
+            <th scope="col"><%= t(".band") %></th>
+            <th scope="col" class="num"><%= t(".above_low_altitude") %></th>
+            <th scope="col" class="num"><%= t(".above_high_altitude") %></th>
+            <th scope="col" class="num"><%= t(".highest") %></th>
+            <th scope="col" class="num"><%= t(".airmass") %></th>
+            <th scope="col" class="num"><%= t(".moon") %></th>
+            <th scope="col"><%= t(".verdict") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% visibilities.each do |visibility| %>
+            <%= render "visibility", visibility: visibility, night: night %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p class="when"><%= t(".no_astronomical_night") %></p>
+  <% end %>
+</section>

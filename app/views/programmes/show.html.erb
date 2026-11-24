@@ -1,0 +1,20 @@
+<% content_for :title, t(".title") %>
+
+<div class="page">
+  <aside class="sidebar">
+    <header class="masthead">
+      <h1><%= t(".title") %></h1>
+      <p><%= t(".tagline") %></p>
+    </header>
+
+    <%= render "form", programme: @programme %>
+  </aside>
+
+  <main class="results">
+    <% if params.key?(:programme) && @programme.errors.empty? %>
+      <%= render "results", programme: @programme %>
+    <% else %>
+      <p class="hint"><%= t(".hint") %></p>
+    <% end %>
+  </main>
+</div>

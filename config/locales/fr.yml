@@ -31,6 +31,7 @@ fr:
       not_a_number: "n'est pas un nombre"
       greater_than: "doit être supérieur(e) à %{count}"
       not_an_integer: "doit être un nombre entier"
+      taken: "est déjà utilisé(e)"
       too_long: "est trop long (%{count} caractères au maximum)"
       greater_than_or_equal_to: >-
         doit être supérieur(e) ou égal(e) à %{count}
@@ -40,3 +41,89 @@ fr:
       words_connector: ", "
       two_words_connector: " et "
       last_word_connector: " et "
+  date:
+    formats:
+      night: "%A %-d %B"
+    day_names: [dimanche, lundi, mardi, mercredi, jeudi, vendredi, samedi]
+    abbr_day_names: [dim, lun, mar, mer, jeu, ven, sam]
+    month_names:
+      [~, janvier, février, mars, avril, mai, juin, juillet, août,
+       septembre, octobre, novembre, décembre]
+    abbr_month_names:
+      [~, janv., févr., mars, avr., mai, juin, juil., août, sept., oct.,
+       nov., déc.]
+    order:
+      - :day
+      - :month
+      - :year
+  number:
+    format:
+      separator: ","
+      delimiter: " "
+      precision: 2
+  application:
+    name: "Skopos"
+  programmes:
+    show:
+      title: "Skopos"
+      tagline: "Que viser cette semaine depuis votre station"
+      hint: >-
+        Indiquez votre station, sa magnitude limite et vos cibles, puis
+        calculez la semaine. Les heures sont en temps universel (UT).
+    form:
+      errors: "Le calcul n'a pas pu être lancé :"
+      station: "Station"
+      observatory_code: "Code MPC"
+      or_coordinates: "ou des coordonnées, longitude vers l'est"
+      latitude: "Latitude (°)"
+      longitude: "Longitude (°)"
+      elevation: "Altitude (m)"
+      instrument: "Instrument"
+      aperture: "Diamètre (mm)"
+      limiting_magnitude: "Magnitude limite"
+      week: "Semaine"
+      week_start: "À partir du"
+      targets: "Cibles, une par ligne : nom, AD, Dec, magnitude"
+      targets_label: "Cibles"
+      targets_placeholder: "SN 2026abc 03:12:45.6 -05:30:00 17.2"
+      submit: "Calculer la semaine"
+    results:
+      times_in_ut: "Heures en UT."
+      above_low_altitude: "au-dessus de 20°"
+      above_high_altitude: "au-dessus de 30°"
+      peak: "trait : point le plus haut"
+    night:
+      dark: >-
+        Nuit noire de %{dusk} à %{dawn}, Lune éclairée à %{moon} %
+      target: "Cible"
+      magnitude: "Mag."
+      band: "Nuit"
+      above_low_altitude: "> 20°"
+      above_high_altitude: "> 30°"
+      highest: "Plus haut"
+      airmass: "Airmass"
+      moon: "Lune"
+      verdict: "Verdict"
+      no_astronomical_night: >-
+        Pas de nuit astronomique : le Soleil ne descend pas sous −18°.
+    visibility:
+      band: "%{low} au-dessus de 20°, %{high} au-dessus de 30°"
+      highest: "%{altitude}° à %{time}"
+      moon: "%{separation}°"
+      moon_set: "%{separation}° (couchée)"
+    station:
+      coordinates: "%{latitude}°, %{longitude}°"
+      elevation: "%{coordinates}, %{elevation} m"
+    instrument:
+      with_aperture: "%{aperture} mm, magnitude limite %{magnitude}"
+      without_aperture: "magnitude limite %{magnitude}"
+    duration:
+      none: "0"
+      minutes: "%{minutes} min"
+      hours: "%{hours} h %{minutes}"
+    verdicts:
+      feasible: "faisable"
+      marginal: "limite"
+      out_of_reach: "hors de portée"
+      unknown: "magnitude inconnue"
+      too_low: "trop basse"
