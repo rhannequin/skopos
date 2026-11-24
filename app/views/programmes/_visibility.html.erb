@@ -1,0 +1,56 @@
+<% time_above_low = format_duration(visibility.time_above_low_altitude) %>
+<% time_above_high = format_duration(visibility.time_above_high_altitude) %>
+
+<% verdict = verdict(visibility) %>
+
+<tr class="verdict-<%= verdict %>">
+  <th scope="row"><%= visibility.target.name %></th>
+  <td class="num">
+    <% if visibility.target.magnitude %>
+      <%= format_magnitude(visibility.target.magnitude) %>
+    <% end %>
+  </td>
+  <td>
+    <div
+      class="band"
+      role="img"
+      aria-label="<%= t(".band", low: time_above_low, high: time_above_high) %>"
+    >
+      <% visibility.periods_above_low_altitude.each do |period| %>
+        <span class="low" style="<%= band_style(period, night) %>"></span>
+      <% end %>
+      <% visibility.periods_above_high_altitude.each do |period| %>
+        <span class="high" style="<%= band_style(period, night) %>"></span>
+      <% end %>
+      <% if visibility.observable? %>
+        <span
+          class="peak"
+          style="<%= band_position(visibility.highest_at, night) %>"
+        ></span>
+      <% end %>
+    </div>
+  </td>
+  <td class="num"><%= time_above_low %></td>
+  <td class="num"><%= time_above_high %></td>
+  <td class="num">
+    <%= t(
+      ".highest",
+      altitude: format_decimal(visibility.highest_altitude.degrees),
+      time: format_time(visibility.highest_at)
+    ) %>
+  </td>
+  <td class="num">
+    <% if visibility.minimum_airmass %>
+      <%= format_decimal(visibility.minimum_airmass.value, precision: 2) %>
+    <% end %>
+  </td>
+  <td class="num">
+    <% separation = visibility.moon_separation.degrees.round %>
+    <% if visibility.moon_altitude.negative? %>
+      <%= t(".moon_set", separation: separation) %>
+    <% else %>
+      <%= t(".moon", separation: separation) %>
+    <% end %>
+  </td>
+  <td class="verdict"><%= t("programmes.verdicts.#{verdict}") %></td>
+</tr>

@@ -1,0 +1,80 @@
+<%= form_with(
+  model: programme,
+  url: programme_path,
+  method: :get,
+  scope: :programme,
+  class: "programme-form"
+) do |form| %>
+  <% if programme.errors.any? %>
+    <div class="errors" role="alert">
+      <p><%= t(".errors") %></p>
+      <ul>
+        <% programme.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset>
+    <legend><%= t(".station") %></legend>
+    <%= form.label :observatory_code do %>
+      <%= t(".observatory_code") %>
+      <%= form.text_field(
+        :observatory_code,
+        autocomplete: "off",
+        placeholder: "511"
+      ) %>
+    <% end %>
+    <p class="aside"><%= t(".or_coordinates") %></p>
+    <div class="pair">
+      <%= form.label :latitude do %>
+        <%= t(".latitude") %>
+        <%= form.text_field :latitude, inputmode: "decimal" %>
+      <% end %>
+      <%= form.label :longitude do %>
+        <%= t(".longitude") %>
+        <%= form.text_field :longitude, inputmode: "decimal" %>
+      <% end %>
+    </div>
+    <%= form.label :elevation do %>
+      <%= t(".elevation") %>
+      <%= form.text_field :elevation, inputmode: "decimal" %>
+    <% end %>
+  </fieldset>
+
+  <fieldset>
+    <legend><%= t(".instrument") %></legend>
+    <div class="pair">
+      <%= form.label :aperture do %>
+        <%= t(".aperture") %>
+        <%= form.text_field :aperture, inputmode: "numeric" %>
+      <% end %>
+      <%= form.label :limiting_magnitude do %>
+        <%= t(".limiting_magnitude") %>
+        <%= form.text_field :limiting_magnitude, inputmode: "decimal" %>
+      <% end %>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend><%= t(".week") %></legend>
+    <%= form.label :week_start do %>
+      <%= t(".week_start") %>
+      <%= form.date_field :week_start %>
+    <% end %>
+  </fieldset>
+
+  <fieldset>
+    <legend><%= t(".targets") %></legend>
+    <%= form.text_area(
+      :targets_text,
+      rows: 8,
+      spellcheck: false,
+      "aria-label": t(".targets_label"),
+      placeholder: t(".targets_placeholder")
+    ) %>
+  </fieldset>
+
+  <%= form.submit t(".submit"), name: nil %>
+<% end %>
