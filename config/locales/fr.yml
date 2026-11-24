@@ -1,0 +1,42 @@
+fr:
+  activemodel:
+    attributes:
+      programme:
+        observatory_code: "Code MPC"
+        latitude: "Latitude"
+        longitude: "Longitude"
+        elevation: "Altitude"
+        aperture: "Diamètre"
+        limiting_magnitude: "Magnitude limite"
+        week_start: "Début de semaine"
+        targets_text: "Cibles"
+    errors:
+      models:
+        programme:
+          attributes:
+            base:
+              station_missing: "Indiquez un code MPC ou des coordonnées."
+            observatory_code:
+              unknown: "ne correspond à aucun observatoire du MPC"
+            week_start:
+              outside_ephemeris: "doit être entre %{first} et %{last}"
+            targets_text:
+              unreadable_lines: "illisibles aux lignes %{lines}"
+              too_many: "trop nombreuses, %{count} au maximum"
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      blank: "doit être rempli(e)"
+      invalid: "n'est pas valide"
+      not_a_number: "n'est pas un nombre"
+      greater_than: "doit être supérieur(e) à %{count}"
+      not_an_integer: "doit être un nombre entier"
+      too_long: "est trop long (%{count} caractères au maximum)"
+      greater_than_or_equal_to: >-
+        doit être supérieur(e) ou égal(e) à %{count}
+      less_than_or_equal_to: "doit être inférieur(e) ou égal(e) à %{count}"
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " et "
+      last_word_connector: " et "
